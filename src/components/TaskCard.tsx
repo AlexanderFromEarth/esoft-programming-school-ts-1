@@ -1,7 +1,12 @@
 import {memo} from 'react'
-import {useTasks} from '../context/TaskContext.js'
+import {useTasks} from '../context/TaskContext.ts'
+import type {Task} from '../context/taskModel.ts';
 
-function formatDate(date) {
+interface TaskCardProps {
+  task: Task
+}
+
+function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('ru-RU', {
     day: '2-digit',
     month: 'short',
@@ -10,7 +15,7 @@ function formatDate(date) {
   }).format(date)
 }
 
-function TaskCard({task}) {
+function TaskCard({task}: TaskCardProps) {
   const {toggleTask, moveTaskToProgress} = useTasks()
 
   return (
@@ -31,7 +36,7 @@ function TaskCard({task}) {
         </div>
 
         <p className="task-meta">
-          Создано: {formatDate(task.createdAt)} • Обновлено: {formatDate(task.state.updatedAt)}
+          Создано: {formatDate(task.createdAt)} {task.state.updatedAt ? `• Обновлено: ${formatDate(task.state.updatedAt)}` : ''}
         </p>
       </div>
 

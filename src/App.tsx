@@ -1,8 +1,8 @@
-import Hero from './components/Hero.jsx'
-import TaskFilters from './components/TaskFilters.jsx'
-import TaskForm from './components/TaskForm.jsx'
-import TaskList from './components/TaskList.jsx'
-import TaskProvider from './context/TaskProvider.jsx'
+import Hero from './components/Hero.js'
+import TaskFilters from './components/TaskFilters.js'
+import TaskForm from './components/TaskForm.js'
+import TaskList from './components/TaskList.js'
+import TaskProvider from './context/TaskProvider.tsx'
 
 function App() {
   return (

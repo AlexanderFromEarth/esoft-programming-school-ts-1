@@ -1,24 +1,26 @@
-import {useCallback, useMemo, useState} from 'react'
-import TaskContext from './TaskContext.js'
+import {type PropsWithChildren, type SyntheticEvent, useCallback, useMemo, useState} from 'react'
+import TaskContext from './TaskContext.ts'
 import {
   addTaskToList,
+  type FilterId,
   filters,
   getFilteredTasks,
   getTaskStats,
   initialTasks,
   moveTaskToProgressInList,
-  toggleTaskInList,
-} from './taskModel.js'
+  type Task,
+  toggleTaskInList
+} from './taskModel.ts'
 
-function TaskProvider({children}) {
-  const [tasks, setTasks] = useState(initialTasks)
-  const [title, setTitle] = useState('')
-  const [filter, setFilter] = useState(filters[0].id)
+function TaskProvider({children}: PropsWithChildren) {
+  const [tasks, setTasks] = useState<Array<Task>>(initialTasks)
+  const [title, setTitle] = useState<string>('')
+  const [filter, setFilter] = useState<FilterId>(filters[0].id)
 
   const stats = useMemo(() => getTaskStats(tasks), [tasks])
   const filteredTasks = useMemo(() => getFilteredTasks(tasks, filter), [tasks, filter])
 
-  const addTask = useCallback((event) => {
+  const addTask = useCallback((event: SyntheticEvent<unknown>) => {
     event.preventDefault()
 
     const normalizedTitle = title.trim()
@@ -30,11 +32,11 @@ function TaskProvider({children}) {
     setTitle('')
   }, [title])
 
-  const toggleTask = useCallback((taskId) => {
+  const toggleTask = useCallback((taskId: number) => {
     setTasks((currentTasks) => toggleTaskInList(currentTasks, taskId))
   }, [])
 
-  const moveTaskToProgress = useCallback((taskId) => {
+  const moveTaskToProgress = useCallback((taskId: number) => {
     setTasks((currentTasks) => moveTaskToProgressInList(currentTasks, taskId))
   }, [])
 

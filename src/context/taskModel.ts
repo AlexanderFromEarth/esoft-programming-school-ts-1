@@ -1,4 +1,21 @@
-export const initialTasks = [
+interface StateBase {
+  id: number;
+  title: string;
+  resolved: boolean;
+}
+
+interface State extends StateBase {
+  updatedAt: Date | null;
+}
+
+export interface Task {
+  id: number;
+  title: string;
+  state: State;
+  createdAt: Date;
+}
+
+export const initialTasks: Array<Task> = [
   {
     id: 1,
     title: 'Подготовить презентацию',
@@ -56,13 +73,19 @@ export const initialTasks = [
   }
 ]
 
-export const filters = [
+export type FilterId = 'all' | 'active' | 'done'
+
+export const filters: Array<{id: FilterId, label: string}> = [
   {id: 'all', label: 'Все'},
   {id: 'active', label: 'Активные'},
   {id: 'done', label: 'Готово'},
 ]
 
-const taskStates = {
+const taskStates: {
+  new: StateBase;
+  inProgress: StateBase;
+  done: StateBase;
+} = {
   new: {
     id: 1,
     title: 'Новая',
@@ -80,14 +103,20 @@ const taskStates = {
   },
 }
 
-function withUpdatedAt(state, updatedAt) {
+function withUpdatedAt(state: StateBase, updatedAt: State['updatedAt']): State {
   return {
     ...state,
     updatedAt,
   }
 }
 
-export function getTaskStats(tasks) {
+export interface Stats {
+  totalCount: number;
+  activeCount: number;
+  doneCount: number;
+}
+
+export function getTaskStats(tasks: Array<Task>): Stats {
   const activeCount = tasks.filter((task) => !task.state.resolved).length
 
   return {
@@ -97,19 +126,17 @@ export function getTaskStats(tasks) {
   }
 }
 
-export function getFilteredTasks(tasks, filter) {
+export function getFilteredTasks(tasks: Array<Task>, filter: FilterId): Array<Task> {
   if (filter === 'active') {
     return tasks.filter((task) => !task.state.resolved)
-  }
-
-  if (filter === 'done') {
+  } else if (filter === 'done') {
     return tasks.filter((task) => task.state.resolved)
   }
 
   return tasks
 }
 
-export function createTask(tasks, title) {
+export function createTask(tasks: Array<Task>, title: string): Task {
   return {
     id: tasks.reduce((maxId, task) => Math.max(maxId, task.id), 0) + 1,
     title,
@@ -118,11 +145,11 @@ export function createTask(tasks, title) {
   }
 }
 
-export function addTaskToList(tasks, title) {
+export function addTaskToList(tasks: Array<Task>, title: string): Array<Task> {
   return [createTask(tasks, title), ...tasks]
 }
 
-export function toggleTaskInList(tasks, taskId) {
+export function toggleTaskInList(tasks: Array<Task>, taskId: number): Array<Task> {
   return tasks.map((task) => {
     if (task.id !== taskId) {
       return task
@@ -137,7 +164,7 @@ export function toggleTaskInList(tasks, taskId) {
   })
 }
 
-export function moveTaskToProgressInList(tasks, taskId) {
+export function moveTaskToProgressInList(tasks: Array<Task>, taskId: number): Array<Task> {
   return tasks.map((task) => {
     if (task.id !== taskId || task.state.id !== taskStates.new.id) {
       return task
