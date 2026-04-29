@@ -1,6 +1,6 @@
 import {memo} from 'react'
 import TaskCard from './TaskCard.js'
-import {useTasks} from '../context/TaskContext.ts'
+import {useTasks} from '../store/TaskContext.ts'
 
 function TaskList() {
   const {filteredTasks} = useTasks()

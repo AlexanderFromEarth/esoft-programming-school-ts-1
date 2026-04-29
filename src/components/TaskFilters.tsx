@@ -1,5 +1,5 @@
 import {memo} from 'react'
-import {useTasks} from '../context/TaskContext.ts'
+import {useTasks} from '../store/TaskContext.ts'
 
 function TaskFilters() {
   const {filters, filter, setFilter} = useTasks()

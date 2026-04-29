@@ -1,4 +1,4 @@
-import {useTasks} from '../context/TaskContext.ts'
+import {useTasks} from '../store/TaskContext.ts'
 
 function Hero() {
   const {totalCount, activeCount, doneCount} = useTasks()

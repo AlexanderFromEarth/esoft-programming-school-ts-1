@@ -1,6 +1,6 @@
 import {memo} from 'react'
-import {useTasks} from '../context/TaskContext.ts'
-import type {Task} from '../context/taskModel.ts';
+import {useTasks} from '../store/TaskContext.ts'
+import type {Task} from '../store/taskModel.ts';
 
 interface TaskCardProps {
   task: Task

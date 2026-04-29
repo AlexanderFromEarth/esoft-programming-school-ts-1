@@ -2,7 +2,7 @@ import Hero from './components/Hero.js'
 import TaskFilters from './components/TaskFilters.js'
 import TaskForm from './components/TaskForm.js'
 import TaskList from './components/TaskList.js'
-import TaskProvider from './context/TaskProvider.tsx'
+import TaskProvider from './store/TaskProvider.tsx'
 
 function App() {
   return (
