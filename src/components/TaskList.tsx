@@ -1,9 +1,12 @@
 import {memo} from 'react'
+import useTrack from '../useTrack.ts';
 import TaskCard from './TaskCard.js'
-import {useTasks} from '../store/TaskContext.ts'
+import {useTasks} from '../store/taskStore.ts'
 
 function TaskList() {
   const {filteredTasks} = useTasks()
+
+  useTrack('TaskList')
 
   return (
     <div className="task-list">

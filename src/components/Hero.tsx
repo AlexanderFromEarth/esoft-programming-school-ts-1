@@ -1,7 +1,10 @@
-import {useTasks} from '../store/TaskContext.ts'
+import {useTasks} from '../store/taskStore.ts'
+import useTrack from '../useTrack.ts';
 
 function Hero() {
   const {totalCount, activeCount, doneCount} = useTasks()
+
+  useTrack('Hero')
 
   return (
     <section className="hero">

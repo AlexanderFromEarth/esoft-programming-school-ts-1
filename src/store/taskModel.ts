@@ -5,14 +5,14 @@ interface StateBase {
 }
 
 interface State extends StateBase {
-  updatedAt: Date | null;
+  updatedAt: string | null;
 }
 
 export interface Task {
   id: number;
   title: string;
   state: State;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export const initialTasks: Array<Task> = [
@@ -23,9 +23,9 @@ export const initialTasks: Array<Task> = [
       id: 3,
       title: 'Выполнено',
       resolved: true,
-      updatedAt: new Date('2026-04-24T14:29:59Z')
+      updatedAt: new Date('2026-04-24T14:29:59Z').toISOString()
     },
-    createdAt: new Date('2026-04-24T14:29:00Z')
+    createdAt: new Date('2026-04-24T14:29:00Z').toISOString()
   },
   {
     id: 2,
@@ -36,7 +36,7 @@ export const initialTasks: Array<Task> = [
       resolved: false,
       updatedAt: null
     },
-    createdAt: new Date('2026-04-24T15:05:00Z')
+    createdAt: new Date('2026-04-24T15:05:00Z').toISOString()
   },
   {
     id: 3,
@@ -45,9 +45,9 @@ export const initialTasks: Array<Task> = [
       id: 2,
       title: 'В работе',
       resolved: false,
-      updatedAt: new Date('2026-04-24T15:45:00Z')
+      updatedAt: new Date('2026-04-24T15:45:00Z').toISOString()
     },
-    createdAt: new Date('2026-04-24T15:20:00Z')
+    createdAt: new Date('2026-04-24T15:20:00Z').toISOString()
   },
   {
     id: 4,
@@ -56,9 +56,9 @@ export const initialTasks: Array<Task> = [
       id: 3,
       title: 'Выполнено',
       resolved: true,
-      updatedAt: new Date('2026-04-24T16:30:00Z')
+      updatedAt: new Date('2026-04-24T16:30:00Z').toISOString()
     },
-    createdAt: new Date('2026-04-24T16:00:00Z')
+    createdAt: new Date('2026-04-24T16:00:00Z').toISOString()
   },
   {
     id: 5,
@@ -67,9 +67,9 @@ export const initialTasks: Array<Task> = [
       id: 2,
       title: 'В работе',
       resolved: false,
-      updatedAt: new Date('2026-04-24T17:00:00Z')
+      updatedAt: new Date('2026-04-24T17:00:00Z').toISOString()
     },
-    createdAt: new Date('2026-04-24T16:40:00Z')
+    createdAt: new Date('2026-04-24T16:40:00Z').toISOString()
   }
 ]
 
@@ -81,7 +81,7 @@ export const filters: Array<{id: FilterId, label: string}> = [
   {id: 'done', label: 'Готово'},
 ]
 
-const taskStates: {
+export const taskStates: {
   new: StateBase;
   inProgress: StateBase;
   done: StateBase;
@@ -101,13 +101,6 @@ const taskStates: {
     title: 'Выполнено',
     resolved: true,
   },
-}
-
-function withUpdatedAt(state: StateBase, updatedAt: State['updatedAt']): State {
-  return {
-    ...state,
-    updatedAt,
-  }
 }
 
 export interface Stats {
@@ -140,8 +133,8 @@ export function createTask(tasks: Array<Task>, title: string): Task {
   return {
     id: tasks.reduce((maxId, task) => Math.max(maxId, task.id), 0) + 1,
     title,
-    state: withUpdatedAt(taskStates.new, null),
-    createdAt: new Date(),
+    state: {...taskStates.new, updatedAt: null},
+    createdAt: new Date().toISOString(),
   }
 }
 
@@ -159,7 +152,7 @@ export function toggleTaskInList(tasks: Array<Task>, taskId: number): Array<Task
 
     return {
       ...task,
-      state: withUpdatedAt(nextState, new Date()),
+      state: {...nextState, updatedAt: new Date().toISOString()},
     }
   })
 }
@@ -172,7 +165,7 @@ export function moveTaskToProgressInList(tasks: Array<Task>, taskId: number): Ar
 
     return {
       ...task,
-      state: withUpdatedAt(taskStates.inProgress, new Date()),
+      state: {...taskStates.inProgress, updatedAt: new Date().toISOString()},
     }
   })
 }
