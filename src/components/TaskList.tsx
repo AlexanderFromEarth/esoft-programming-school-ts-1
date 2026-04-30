@@ -1,9 +1,13 @@
 import {memo} from 'react'
+import {useSelector} from 'react-redux'
+import {selectFilteredTasks} from '../store/taskStore.ts'
+import useTrack from '../useTrack.ts';
 import TaskCard from './TaskCard.js'
-import {useTasks} from '../store/TaskContext.ts'
 
 function TaskList() {
-  const {filteredTasks} = useTasks()
+  const filteredTasks = useSelector(selectFilteredTasks);
+
+  useTrack('TaskList')
 
   return (
     <div className="task-list">

@@ -1,7 +1,11 @@
-import {useTasks} from '../store/TaskContext.ts'
+import {useSelector} from 'react-redux'
+import {selectStats} from '../store/taskStore.ts';
+import useTrack from '../useTrack.ts';
 
 function Hero() {
-  const {totalCount, activeCount, doneCount} = useTasks()
+  const {totalCount, activeCount, doneCount} = useSelector(selectStats);
+
+  useTrack('Hero')
 
   return (
     <section className="hero">

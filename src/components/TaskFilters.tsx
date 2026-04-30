@@ -1,8 +1,14 @@
 import {memo} from 'react'
-import {useTasks} from '../store/TaskContext.ts'
+import {useDispatch, useSelector} from 'react-redux'
+import {setFilter, selectFilters, selectFilter} from '../store/taskStore.ts'
+import useTrack from '../useTrack.ts';
 
 function TaskFilters() {
-  const {filters, filter, setFilter} = useTasks()
+  const filters = useSelector(selectFilters);
+  const filter = useSelector(selectFilter);
+  const dispatch = useDispatch();
+
+  useTrack('TaskFilters')
 
   return (
     <div className="toolbar">
@@ -12,7 +18,7 @@ function TaskFilters() {
             key={item.id}
             type="button"
             className={item.id === filter ? 'filter-button is-active' : 'filter-button'}
-            onClick={() => setFilter(item.id)}
+            onClick={() => dispatch(setFilter(item.id))}
           >
             {item.label}
           </button>

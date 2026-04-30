@@ -1,11 +1,19 @@
 import {memo} from 'react'
-import {useTasks} from '../store/TaskContext.ts'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectTitle, setTitle, addTask} from '../store/taskStore.ts'
+import useTrack from '../useTrack.ts';
 
 function TaskForm() {
-  const {title, setTitle, addTask} = useTasks()
+  const title = useSelector(selectTitle);
+  const dispatch = useDispatch();
+
+  useTrack('TaskForm')
 
   return (
-    <form className="task-form" onSubmit={addTask}>
+    <form className="task-form" onSubmit={(e) => {
+      e.preventDefault()
+      dispatch(addTask())
+    }}>
       <label className="task-form-field">
         <span>Новая задача</span>
         <input
@@ -13,7 +21,7 @@ function TaskForm() {
           name="title"
           placeholder="Например, подготовить демо"
           value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          onChange={(event) => dispatch(setTitle(event.target.value))}
         />
       </label>
       <button type="submit">Добавить</button>
