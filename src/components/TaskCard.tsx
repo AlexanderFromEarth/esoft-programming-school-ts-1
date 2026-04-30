@@ -1,22 +1,25 @@
-import {memo} from 'react'
-import {useTasks} from '../store/TaskContext.ts'
+import {observer} from 'mobx-react-lite'
+import {useTasks} from '../store/taskStore.ts'
 import type {Task} from '../store/taskModel.ts';
+import useTrack from '../useTrack.ts';
 
 interface TaskCardProps {
   task: Task
 }
 
-function formatDate(date: Date): string {
+function formatDate(date: string): string {
   return new Intl.DateTimeFormat('ru-RU', {
     day: '2-digit',
     month: 'short',
     hour: '2-digit',
     minute: '2-digit',
-  }).format(date)
+  }).format(new Date(date))
 }
 
 function TaskCard({task}: TaskCardProps) {
   const {toggleTask, moveTaskToProgress} = useTasks()
+
+  useTrack(`TaskCard ${task.id}`)
 
   return (
     <article className={task.state.resolved ? 'task-card is-done' : 'task-card'}>
@@ -56,4 +59,4 @@ function TaskCard({task}: TaskCardProps) {
   )
 }
 
-export default memo(TaskCard)
+export default observer(TaskCard)

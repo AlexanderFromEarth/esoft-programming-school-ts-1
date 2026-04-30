@@ -1,7 +1,11 @@
-import {useTasks} from '../store/TaskContext.ts'
+import {observer} from 'mobx-react-lite'
+import {useTasks} from '../store/taskStore.ts'
+import useTrack from '../useTrack.ts';
 
 function Hero() {
   const {totalCount, activeCount, doneCount} = useTasks()
+
+  useTrack('Hero')
 
   return (
     <section className="hero">
@@ -32,4 +36,4 @@ function Hero() {
   )
 }
 
-export default Hero
+export default observer(Hero)
