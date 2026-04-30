@@ -1,8 +1,13 @@
 import {memo} from 'react'
-import {useTasks} from '../store/TaskContext.ts'
+import {useTasks} from '../store/taskStore.ts'
+import useTrack from '../useTrack.ts';
 
 function TaskFilters() {
-  const {filters, filter, setFilter} = useTasks()
+  const filters = useTasks(({filters}) => filters);
+  const filter = useTasks(({filter}) => filter);
+  const setFilter = useTasks(({setFilter}) => setFilter);
+
+  useTrack('TaskFilters')
 
   return (
     <div className="toolbar">

@@ -1,11 +1,19 @@
 import {memo} from 'react'
-import {useTasks} from '../store/TaskContext.ts'
+import {useTasks} from '../store/taskStore.ts'
+import useTrack from '../useTrack.ts';
 
 function TaskForm() {
-  const {title, setTitle, addTask} = useTasks()
+  const title = useTasks(({title}) => title);
+  const setTitle = useTasks(({setTitle}) => setTitle);
+  const addTask = useTasks(({addTask}) => addTask);
+
+  useTrack('TaskForm')
 
   return (
-    <form className="task-form" onSubmit={addTask}>
+    <form className="task-form" onSubmit={(e) => {
+      e.preventDefault()
+      addTask()
+    }}>
       <label className="task-form-field">
         <span>Новая задача</span>
         <input
